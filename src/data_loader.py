@@ -49,4 +49,4 @@ def create_model_data(data):
     features = data[FEATURE_COLUMNS].copy()
     target = data[TARGET_COLUMN].copy()
 
-    return features, target 
+    return features, target
