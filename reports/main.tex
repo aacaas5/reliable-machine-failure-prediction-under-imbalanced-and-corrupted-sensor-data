@@ -1,0 +1,828 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+
+\begin{document}
+
+% =========================================================
+% TITLE AND AUTHOR
+% =========================================================
+
+\title{Reliable Machine-Failure Prediction Under Imbalanced and Corrupted Sensor Data}
+
+\author{
+\IEEEauthorblockN{MAA AACAAS MUHAMATH}
+\IEEEauthorblockA{
+Department of Electrical Engineering\\
+University of Moratuwa\\
+Moratuwa, Sri Lanka
+}
+}
+
+\maketitle
+
+% =========================================================
+% ABSTRACT
+% =========================================================
+
+\begin{abstract}
+
+Machine-learning systems for predictive maintenance are commonly evaluated under clean test conditions, although real industrial systems may experience noisy sensors, missing measurements, class imbalance, and limited labelled failure data.
+
+This study investigates machine-failure prediction reliability under these conditions using the AI4I 2020 Predictive Maintenance Dataset \cite{uci_ai4i}. A Dummy Classifier, Logistic Regression, and Random Forest were evaluated during baseline modelling. An unweighted Random Forest containing 300 trees was selected as the final prediction system, with a validation-selected decision threshold of 0.20.
+
+Under clean test conditions, the selected model achieved 97.27\% accuracy, 56.76\% precision, 82.35\% recall, 67.20\% F1-score, and 78.03\% Average Precision.
+
+Robustness was evaluated under increasing sensor noise, missing sensor measurements, and reduced labelled training data. At 30\% sensor noise, recall decreased to 66.67\%, while 30\% missing sensor measurements reduced recall to 50.98\%. Training with only 20\% of the available labelled data resulted in approximately 66.67\% recall.
+
+Model explainability was investigated using Random Forest feature importance and SHAP \cite{lundberg2017}. Torque represented approximately 32.45\% of total impurity-based feature importance, while rotational speed and tool wear were also influential.
+
+The results demonstrate that high clean-data accuracy alone is insufficient for evaluating predictive-maintenance reliability. Class-imbalance-aware metrics, robustness testing, and explainability provide a more comprehensive assessment.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+predictive maintenance, machine failure prediction, Random Forest, class imbalance, sensor noise, missing data, robust machine learning, SHAP, explainable artificial intelligence
+\end{IEEEkeywords}
+
+\noindent
+\textbf{Project Repository:}
+\url{https://github.com/aacaas5/reliable-machine-failure-prediction-under-imbalanced-and-corrupted-sensor-data}
+
+% =========================================================
+% I. INTRODUCTION
+% =========================================================
+
+\section{Introduction}
+
+Predictive maintenance aims to identify equipment degradation or impending failure before breakdown occurs. Machine-learning techniques can support this objective by analysing multiple operating measurements simultaneously to identify patterns associated with equipment failure.
+
+However, predictive-maintenance datasets frequently exhibit strong class imbalance because normal machine operation occurs substantially more frequently than failure events.
+
+Under these conditions, high accuracy can provide an overly optimistic interpretation of model performance. Precision--recall based metrics are particularly useful for evaluating minority-class performance in highly imbalanced binary classification problems \cite{saito2015}.
+
+Real industrial deployments also introduce additional challenges. Sensors may become noisy, measurements may be unavailable, communication interruptions may occur, and labelled failure examples may be limited.
+
+Therefore, a machine-learning model that performs strongly under clean benchmark conditions may not necessarily remain reliable during deployment.
+
+This study investigates machine-failure prediction as a reliability problem rather than focusing only on clean-data classification performance.
+
+The main research questions are:
+
+\begin{enumerate}
+
+    \item Can the selected machine-learning model detect failures effectively under clean-data conditions?
+
+    \item How does failure-detection reliability change when sensor measurements become noisy?
+
+    \item How does missing sensor information affect machine-failure prediction?
+
+    \item What happens when the amount of labelled training data is reduced?
+
+    \item Which features have the greatest influence on model predictions?
+
+    \item Why are some actual failures detected confidently while others are missed?
+
+\end{enumerate}
+
+The main contribution of this project is a reliability-focused evaluation framework combining clean-data performance, robustness testing, class-imbalance-aware metrics, and model explainability.
+
+% =========================================================
+% II. DATASET
+% =========================================================
+
+\section{Dataset}
+
+The AI4I 2020 Predictive Maintenance Dataset from the UCI Machine Learning Repository was used in this study \cite{uci_ai4i}.
+
+The dataset contains 10,000 observations and was generated to reflect industrial predictive-maintenance conditions.
+
+Six original input variables were used:
+
+\begin{itemize}
+
+    \item Machine type
+    \item Air temperature
+    \item Process temperature
+    \item Rotational speed
+    \item Torque
+    \item Tool wear
+
+\end{itemize}
+
+The binary target variable represents machine failure:
+
+\[
+y =
+\begin{cases}
+0, & \text{no machine failure},\\
+1, & \text{machine failure}.
+\end{cases}
+\]
+
+The dataset was divided into:
+
+\begin{itemize}
+
+    \item 7000 training observations,
+    \item 1500 validation observations,
+    \item 1500 test observations.
+
+\end{itemize}
+
+The final test set contained 51 actual machine failures.
+
+The target distribution was strongly imbalanced, making metrics such as recall, F1-score, and Average Precision particularly important.
+
+% =========================================================
+% III. METHODOLOGY
+% =========================================================
+
+\section{Methodology}
+
+\subsection{Preprocessing}
+
+A reusable preprocessing pipeline was used throughout the project.
+
+Numerical variables were retained as numerical values for the tree-based model, while machine type was encoded into indicator variables.
+
+After preprocessing, the Random Forest used eight transformed input features.
+
+All preprocessing transformations were fitted using the training data only.
+
+Validation data, clean test data, and corrupted test data were processed using the already-fitted preprocessing pipeline.
+
+This approach prevented information from validation or test observations from influencing preprocessing parameters and reduced the risk of data leakage.
+
+\subsection{Baseline Models}
+
+Three baseline approaches were evaluated:
+
+\begin{itemize}
+
+    \item Dummy Classifier,
+    \item Logistic Regression,
+    \item Random Forest.
+
+\end{itemize}
+
+Random Forests combine multiple decision trees and are capable of modelling nonlinear relationships and interactions between variables \cite{breiman2001}.
+
+The final selected model was an unweighted Random Forest configured with 300 trees.
+
+\begin{verbatim}
+RandomForestClassifier(
+    n_estimators=300,
+    random_state=42,
+    n_jobs=-1
+)
+\end{verbatim}
+
+The random state was fixed at 42 to improve reproducibility.
+
+\subsection{Decision Threshold}
+
+The Random Forest outputs an estimated probability of machine failure.
+
+Instead of using the default probability threshold of 0.50, a decision threshold was selected using validation data.
+
+The selected threshold was:
+
+\[
+T = 0.20.
+\]
+
+The prediction rule was therefore:
+
+\[
+\hat{y} =
+\begin{cases}
+1, & P(y=1) \geq 0.20,\\
+0, & P(y=1) < 0.20.
+\end{cases}
+\]
+
+The threshold was fixed before final test evaluation.
+
+The same threshold was subsequently used during all robustness experiments and explainability analyses.
+
+Maintaining a fixed threshold allowed direct comparison between clean and corrupted operating conditions.
+
+\subsection{Evaluation Metrics}
+
+Performance was evaluated using:
+
+\begin{itemize}
+
+    \item Accuracy,
+    \item Precision,
+    \item Recall,
+    \item F1-score,
+    \item Average Precision,
+    \item Confusion matrix.
+
+\end{itemize}
+
+Recall was calculated as:
+
+\[
+\mathrm{Recall}
+=
+\frac{TP}{TP+FN}
+\]
+
+where $TP$ represents true positives and $FN$ represents false negatives.
+
+Precision was calculated as:
+
+\[
+\mathrm{Precision}
+=
+\frac{TP}{TP+FP}.
+\]
+
+The F1-score was:
+
+\[
+F_1 =
+2
+\frac{
+\mathrm{Precision}
+\times
+\mathrm{Recall}
+}{
+\mathrm{Precision}
++
+\mathrm{Recall}
+}.
+\]
+
+Precision--recall based evaluation is particularly useful in highly imbalanced binary classification problems \cite{saito2015}.
+
+% =========================================================
+% IV. CLEAN BASELINE
+% =========================================================
+
+\section{Clean-Data Baseline Results}
+
+The selected Random Forest was first evaluated on the untouched test set.
+
+The clean-data performance is shown in Table~\ref{tab:baseline}.
+
+\begin{table}[htbp]
+
+\caption{Clean-Data Random Forest Performance}
+
+\label{tab:baseline}
+
+\centering
+
+\begin{tabular}{lc}
+
+\toprule
+
+\textbf{Metric} & \textbf{Result}\\
+
+\midrule
+
+Accuracy & 97.27\%\\
+Precision & 56.76\%\\
+Recall & 82.35\%\\
+F1-score & 67.20\%\\
+Average Precision & 78.03\%\\
+Decision Threshold & 0.20\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+The confusion matrix was:
+
+\[
+\begin{bmatrix}
+1417 & 32\\
+9 & 42
+\end{bmatrix}.
+\]
+
+Among the 51 actual failures:
+
+\begin{itemize}
+
+    \item 42 failures were correctly detected,
+    \item 9 failures were missed.
+
+\end{itemize}
+
+Although overall accuracy reached 97.27\%, the highly imbalanced class distribution means that accuracy alone provides an incomplete description of system reliability.
+
+Recall and Average Precision provide more meaningful information about actual failure detection.
+
+% =========================================================
+% V. ROBUSTNESS EXPERIMENTS
+% =========================================================
+
+\section{Robustness Experiments}
+
+Three robustness conditions were investigated:
+
+\begin{enumerate}
+
+    \item Sensor measurement noise
+    \item Missing sensor measurements
+    \item Limited labelled training data
+
+\end{enumerate}
+
+\subsection{Sensor Noise}
+
+Random noise was introduced into numerical sensor measurements at severity levels of:
+
+\[
+0\%,\quad
+5\%,\quad
+10\%,\quad
+20\%,\quad
+30\%.
+\]
+
+Noise magnitude was scaled relative to the standard deviation of each numerical variable.
+
+This prevented features operating at different numerical scales from receiving inappropriate absolute perturbations.
+
+Throughout the experiment, the same:
+
+\begin{itemize}
+
+    \item test observations,
+    \item true labels,
+    \item fitted preprocessing pipeline,
+    \item Random Forest model,
+    \item decision threshold
+
+\end{itemize}
+
+were retained.
+
+At 30\% sensor noise, performance deteriorated substantially.
+
+\begin{table}[htbp]
+
+\caption{Clean Versus 30\% Sensor Noise}
+
+\centering
+
+\begin{tabular}{lcc}
+
+\toprule
+
+\textbf{Metric} &
+\textbf{Clean} &
+\textbf{30\% Noise}\\
+
+\midrule
+
+Accuracy & 97.27\% & 93.60\%\\
+Precision & 56.76\% & 30.09\%\\
+Recall & 82.35\% & 66.67\%\\
+F1-score & 67.20\% & 41.46\%\\
+Average Precision & 78.03\% & 54.17\%\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+Recall decreased from 82.35\% to 66.67\%.
+
+Precision also decreased substantially, indicating an increase in false failure alarms.
+
+\subsection{Missing Sensor Measurements}
+
+The second robustness experiment simulated unavailable numerical sensor measurements.
+
+Random sensor cells were replaced with missing values.
+
+A missing-data level of 10\%, for example, represented approximately 10\% of individual numerical sensor measurements being unavailable.
+
+Median values calculated from the training set were used for imputation.
+
+Importantly, test-set statistics were not used to calculate the imputation values.
+
+At 30\% missing sensor measurements:
+
+\begin{itemize}
+
+    \item recall decreased from 82.35\% to 50.98\%,
+    \item accuracy remained approximately 96.87\%.
+
+\end{itemize}
+
+This result demonstrates an important limitation of accuracy in highly imbalanced machine-failure classification.
+
+Even though the model missed approximately half of the real failures, overall accuracy remained high because healthy machines represented the majority of observations.
+
+\subsection{Limited Training Data}
+
+The third robustness experiment investigated the effect of reducing the quantity of labelled training data.
+
+The Random Forest was retrained using stratified subsets corresponding to:
+
+\[
+20\%,\quad
+40\%,\quad
+60\%,\quad
+80\%,\quad
+100\%
+\]
+
+of the original training set.
+
+The Random Forest configuration, clean test set, and decision threshold remained unchanged.
+
+Average Precision improved as more labelled data became available.
+
+\begin{table}[htbp]
+
+\caption{Average Precision Versus Training Data}
+
+\centering
+
+\begin{tabular}{cc}
+
+\toprule
+
+\textbf{Training Fraction} &
+\textbf{Average Precision}\\
+
+\midrule
+
+20\% & 65.46\%\\
+40\% & 69.78\%\\
+60\% & 74.84\%\\
+80\% & 77.81\%\\
+100\% & 78.03\%\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+At the 20\% training-data condition, recall was approximately 66.67\%.
+
+These results indicate that increasing the quantity of labelled training data improved the model's ability to rank and identify machine failures.
+
+% =========================================================
+% VI. ROBUSTNESS SUMMARY
+% =========================================================
+
+\section{Robustness Summary}
+
+Representative recall values are shown in Table~\ref{tab:summary}.
+
+\begin{table}[htbp]
+
+\caption{Recall Under Representative Conditions}
+
+\label{tab:summary}
+
+\centering
+
+\begin{tabular}{lc}
+
+\toprule
+
+\textbf{Condition} &
+\textbf{Recall}\\
+
+\midrule
+
+Clean data & 82.35\%\\
+30\% sensor noise & 66.67\%\\
+30\% missing measurements & 50.98\%\\
+20\% training data & 66.67\%\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+Among the severe conditions tested, missing sensor measurements produced the largest reduction in failure recall.
+
+The results demonstrate that sensor quality, sensor availability, and labelled data availability all influence failure-detection reliability.
+
+% =========================================================
+% VII. EXPLAINABILITY
+% =========================================================
+
+\section{Model Explainability}
+
+Model explainability was investigated using two complementary approaches:
+
+\begin{enumerate}
+
+    \item Random Forest impurity-based feature importance
+    \item SHAP analysis
+
+\end{enumerate}
+
+\subsection{Random Forest Feature Importance}
+
+The impurity-based feature-importance analysis identified torque as the most influential variable.
+
+Torque represented approximately:
+
+\[
+32.45\%
+\]
+
+of the Random Forest's total impurity-based feature importance.
+
+Rotational speed and tool wear also contributed substantially.
+
+Temperature variables showed moderate importance, while encoded machine-type variables contributed relatively little.
+
+Feature importance describes the model's learned predictive behaviour and should not be interpreted as evidence of physical causation.
+
+\subsection{SHAP Analysis}
+
+SHAP provides additive feature-attribution explanations and can be used to analyse global and individual model behaviour \cite{lundberg2017}.
+
+For the failure class:
+
+\begin{itemize}
+
+    \item positive SHAP values push the prediction toward failure,
+    \item negative SHAP values push the prediction away from failure,
+    \item larger absolute SHAP values indicate stronger influence.
+
+\end{itemize}
+
+Global SHAP analysis showed that rotational speed, torque, tool wear, and temperature measurements were among the most influential variables.
+
+Machine-type features generally produced smaller SHAP effects.
+
+% =========================================================
+% VIII. INDIVIDUAL PREDICTIONS
+% =========================================================
+
+\section{Individual Prediction Analysis}
+
+\subsection{Correctly Detected Failure}
+
+One correctly detected failed machine received:
+
+\[
+P(\mathrm{failure}) = 0.94.
+\]
+
+This was substantially above the decision threshold of 0.20.
+
+Its strongest SHAP contributions were:
+
+\begin{table}[htbp]
+
+\caption{SHAP Contributions for True-Positive Example}
+
+\centering
+
+\begin{tabular}{lcc}
+
+\toprule
+
+\textbf{Feature} &
+\textbf{Value} &
+\textbf{SHAP}\\
+
+\midrule
+
+Rotational speed & 2737 & +0.5036\\
+Torque & 8.8 & +0.3625\\
+Tool wear & 142 & +0.0087\\
+Process temperature & 310.2 & +0.0075\\
+Air temperature & 298.9 & +0.0021\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+Rotational speed and torque strongly dominated this prediction.
+
+\subsection{False-Negative Failure}
+
+A selected false-negative machine belonged to the failure class but received:
+
+\[
+P(\mathrm{failure}) = 0.1367.
+\]
+
+Since:
+
+\[
+0.1367 < 0.20,
+\]
+
+the system classified the observation as no failure.
+
+Its strongest SHAP contributions were:
+
+\begin{table}[htbp]
+
+\caption{SHAP Contributions for False-Negative Example}
+
+\centering
+
+\begin{tabular}{lcc}
+
+\toprule
+
+\textbf{Feature} &
+\textbf{Value} &
+\textbf{SHAP}\\
+
+\midrule
+
+Rotational speed & 1371 & +0.0910\\
+Air temperature & 303.6 & +0.0906\\
+Process temperature & 312.2 & -0.0684\\
+Tool wear & 112 & -0.0206\\
+Torque & 54.6 & +0.0143\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+The false-negative case contained weaker and partly conflicting evidence.
+
+Rotational speed and air temperature pushed the prediction toward failure, while process temperature and tool wear pushed it away from failure.
+
+Torque also contributed substantially less than in the correctly detected failure.
+
+% =========================================================
+% IX. DISCUSSION
+% =========================================================
+
+\section{Discussion}
+
+The experiments demonstrate that strong clean-data performance does not guarantee reliable behaviour under imperfect operating conditions.
+
+The selected Random Forest achieved 82.35\% recall under clean conditions and successfully detected 42 of the 51 actual test failures.
+
+However, recall decreased to 66.67\% under severe sensor noise and to 50.98\% under severe missing-data corruption.
+
+The missing-data experiment is particularly important because overall accuracy remained approximately 96.87\%.
+
+This demonstrates how an imbalanced target distribution can hide substantial deterioration in minority-class failure detection.
+
+The limited-training-data experiment also showed that Average Precision improved as more labelled training examples became available.
+
+Average Precision increased from 65.46\% when using only 20\% of the original training data to 78.03\% when using the complete training set.
+
+Explainability analysis further demonstrated that numerical operating measurements played a greater role than machine-type variables.
+
+The true-positive example was dominated by strong rotational-speed and torque contributions.
+
+In comparison, the false-negative case contained weaker and conflicting evidence.
+
+These observations illustrate why a model may perform strongly overall while still missing certain genuine failures.
+
+% =========================================================
+% X. LIMITATIONS AND FUTURE WORK
+% =========================================================
+
+\section{Limitations and Future Work}
+
+Several limitations should be acknowledged.
+
+First, this study evaluated a single benchmark dataset. The AI4I dataset is synthetic, and exact numerical performance may therefore not generalise directly to physical industrial environments.
+
+Second, sensor noise and missing measurements were artificially simulated.
+
+Real industrial sensor problems may involve:
+
+\begin{itemize}
+
+    \item persistent drift,
+    \item calibration bias,
+    \item correlated measurement errors,
+    \item communication failures,
+    \item complete sensor dropout.
+
+\end{itemize}
+
+Third, the reduced-training-data experiment used individual stratified subsets.
+
+Because failure observations are rare, performance may vary depending on which minority-class examples are included.
+
+Fourth, the detailed robustness evaluation focused primarily on one selected Random Forest system.
+
+Future work could investigate:
+
+\begin{itemize}
+
+    \item real industrial predictive-maintenance datasets,
+    \item repeated robustness experiments across multiple random seeds,
+    \item persistent sensor drift,
+    \item correlated sensor corruption,
+    \item complete sensor dropout,
+    \item alternative missing-value strategies,
+    \item gradient-boosted tree models,
+    \item neural networks,
+    \item temporal models,
+    \item probability calibration,
+    \item uncertainty estimation,
+    \item cost-sensitive learning,
+    \item application-specific threshold optimisation.
+
+\end{itemize}
+
+An important future extension would be uncertainty-aware prediction so that the system can identify situations where insufficient sensor information makes a failure prediction unreliable.
+
+% =========================================================
+% XI. CONCLUSION
+% =========================================================
+
+\section{Conclusion}
+
+This study investigated machine-failure prediction as a reliability problem rather than evaluating classification performance only under clean-data conditions.
+
+The selected Random Forest achieved strong clean-data performance, including 82.35\% recall and 78.03\% Average Precision using a fixed decision threshold of 0.20.
+
+However, controlled robustness experiments demonstrated that sensor corruption, missing measurements, and limited labelled training data reduced failure-detection reliability.
+
+Missing sensor measurements produced the largest reduction in recall among the severe tested conditions.
+
+Explainability analysis further demonstrated that model predictions depended on combinations of operating measurements rather than a single variable.
+
+Correctly detected failures could exhibit strong learned feature patterns, whereas missed failures could contain weaker or conflicting model evidence.
+
+The central conclusion is therefore that predictive-maintenance models should not be judged using clean-data accuracy alone.
+
+A more reliable evaluation should combine:
+
+\begin{itemize}
+
+    \item class-imbalance-aware metrics,
+    \item controlled robustness testing,
+    \item consistent decision thresholds,
+    \item analysis of missed failures,
+    \item interpretable model behaviour.
+
+\end{itemize}
+
+% =========================================================
+% REFERENCES
+% =========================================================
+
+\begin{thebibliography}{00}
+
+\bibitem{uci_ai4i}
+S. Matzka,
+``AI4I 2020 Predictive Maintenance Dataset,''
+UCI Machine Learning Repository, 2020.
+doi: 10.24432/C5HS5C.
+
+\bibitem{breiman2001}
+L. Breiman,
+``Random Forests,''
+\textit{Machine Learning},
+vol. 45, no. 1,
+pp. 5--32,
+2001.
+doi: 10.1023/A:1010933404324.
+
+\bibitem{lundberg2017}
+S. M. Lundberg and S.-I. Lee,
+``A Unified Approach to Interpreting Model Predictions,''
+in \textit{Advances in Neural Information Processing Systems},
+vol. 30,
+2017.
+
+\bibitem{saito2015}
+T. Saito and M. Rehmsmeier,
+``The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets,''
+\textit{PLOS ONE},
+vol. 10,
+no. 3,
+Art. no. e0118432,
+2015.
+doi: 10.1371/journal.pone.0118432.
+
+\end{thebibliography}
+
+\end{document}
