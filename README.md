@@ -1,5 +1,24 @@
 # Reliable Machine-Failure Prediction Under Imbalanced and Corrupted Sensor Data
 
+## Research Report
+
+[View the full IEEE-style research report](reports/Reliable_Machine_Failure_Prediction_Report.pdf)
+
+## Key Results
+
+- Clean-test accuracy: **97.27%**
+- Clean-test precision: **56.76%**
+- Clean-test recall: **82.35%**
+- Clean-test F1-score: **67.20%**
+- Clean-test Average Precision: **78.03%**
+- Recall at 30% sensor noise: **66.67%**
+- Recall at 30% missing sensor measurements: **50.98%**
+- Recall with only 20% training data: **66.67%**
+- Most influential Random Forest feature: **Torque (~32.45%)**
+- Selected decision threshold: **0.20**
+
+---
+
 ## Project Overview
 
 This project investigates the reliability of machine-failure prediction under realistic data-quality limitations.
