@@ -1,0 +1,6 @@
+failure_mode,occurrences,detected,missed,mechanism_recall
+TWF,8,2,6,0.25
+HDF,18,16,2,0.8888888888888888
+PWF,13,12,1,0.9230769230769231
+OSF,15,15,0,1.0
+RNF,2,0,2,0.0

@@ -1,0 +1,33 @@
+confusion_group,n,feature,mean_absolute_shap
+TP,42,numeric__Air temperature,0.06975975935977986
+TP,42,numeric__Process temperature,0.0354793442093487
+TP,42,numeric__Rotational speed,0.13651509534022294
+TP,42,numeric__Torque,0.2122667765207547
+TP,42,numeric__Tool wear,0.10554904745887225
+TP,42,categorical__Type_H,0.0041306504559590375
+TP,42,categorical__Type_L,0.027227415731613098
+TP,42,categorical__Type_M,0.012677309540434703
+FN,9,numeric__Air temperature,0.03303821280973058
+FN,9,numeric__Process temperature,0.01694840462661808
+FN,9,numeric__Rotational speed,0.045740328110989506
+FN,9,numeric__Torque,0.023748722294951292
+FN,9,numeric__Tool wear,0.049747059018815515
+FN,9,categorical__Type_H,0.0007317712361863052
+FN,9,categorical__Type_L,0.005297185415443707
+FN,9,categorical__Type_M,0.003467915385824294
+FP,32,numeric__Air temperature,0.060516422492626475
+FP,32,numeric__Process temperature,0.023454510663245998
+FP,32,numeric__Rotational speed,0.09865899109469485
+FP,32,numeric__Torque,0.0852829741952382
+FP,32,numeric__Tool wear,0.09198723870061401
+FP,32,categorical__Type_H,0.003849651233902629
+FP,32,categorical__Type_L,0.018041613427080033
+FP,32,categorical__Type_M,0.009423117035317709
+TN,1417,numeric__Air temperature,0.016202262163327204
+TN,1417,numeric__Process temperature,0.006746592988616258
+TN,1417,numeric__Rotational speed,0.017860545855050626
+TN,1417,numeric__Torque,0.013794924870169483
+TN,1417,numeric__Tool wear,0.01462704932017208
+TN,1417,categorical__Type_H,0.0004083928916283271
+TN,1417,categorical__Type_L,0.0025182880749798067
+TN,1417,categorical__Type_M,0.0013398389899547606
