@@ -1,8 +1,8 @@
 # Reliable Machine-Failure Prediction Under Imbalanced and Corrupted Sensor Data
 
-## Research Report
+## Research Paper
 
-[View the full IEEE-style research report](reports/Reliable_Machine_Failure_Prediction_Report.pdf)
+[View the latest publication-ready IEEE-style paper](publication/paper/main.pdf)
 
 ## Key Results
 
