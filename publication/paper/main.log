@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.8.27)  28 AUG 2026 21:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.8.27)  3 SEP 2026 02:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -390,24 +390,24 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
 
 -- Lines per column: 56 (exact).
 (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
@@ -431,14 +431,14 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (C:\Program Files\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 23.
+Package hyperref Info: Link coloring OFF on input line 22.
  (main.out)
 (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
-5.
+4.
  (C:\Users\aacaa\AppData\Roaming\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -447,75 +447,77 @@ Files/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 65.
 
 
 (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 66.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 65.
 
 
 (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (../tables/dataset_distribution.tex) (../tables/baseline_comparison.tex)
-[2]
-<../figures/validation_threshold_tradeoff.pdf, id=157, 433.34961pt x 284.1102pt
+<../figures/validation_threshold_tradeoff.pdf, id=133, 433.34961pt x 284.1102pt
 >
 File: ../figures/validation_threshold_tradeoff.pdf Graphic file (type pdf)
 <use ../figures/validation_threshold_tradeoff.pdf>
 Package pdftex.def Info: ../figures/validation_threshold_tradeoff.pdf  used on 
-input line 113.
+input line 112.
 (pdftex.def)             Requested size: 252.0pt x 165.2132pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 119--120
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
 \OT1/ptm/m/n/10 FN=9, TP=42; ac-cu-racy=0.9727, pre-ci-sion=0.5676,
  []
 
-(../tables/clean_test.tex)
-<../figures/test_precision_recall_curve.pdf, id=160, 385.31744pt x 295.23979pt>
+[2] (../tables/clean_test.tex)
+<../figures/test_precision_recall_curve.pdf, id=161, 385.31744pt x 295.23979pt>
 
 File: ../figures/test_precision_recall_curve.pdf Graphic file (type pdf)
 <use ../figures/test_precision_recall_curve.pdf>
 Package pdftex.def Info: ../figures/test_precision_recall_curve.pdf  used on in
-put line 132.
+put line 131.
 (pdftex.def)             Requested size: 231.83954pt x 177.64078pt.
 
-Underfull \hbox (badness 1365) in paragraph at lines 133--133
+Underfull \hbox (badness 1365) in paragraph at lines 132--132
 \OT1/ptm/m/n/8 Fig. 2.  []Held-out test precision--recall curve for the Ran-dom
  For-est;
  []
 
 (../tables/repeated_robustness.tex)
-<../figures/repeated_sensor_noise.pdf, id=164, 433.34961pt x 284.1102pt>
+<../figures/repeated_sensor_noise.pdf, id=165, 433.34961pt x 284.1102pt>
 File: ../figures/repeated_sensor_noise.pdf Graphic file (type pdf)
 <use ../figures/repeated_sensor_noise.pdf>
 Package pdftex.def Info: ../figures/repeated_sensor_noise.pdf  used on input li
-ne 151.
+ne 150.
 (pdftex.def)             Requested size: 252.0pt x 165.2132pt.
-<../figures/repeated_missing_data.pdf, id=165, 433.34961pt x 284.1102pt>
+<../figures/repeated_missing_data.pdf, id=166, 433.34961pt x 284.1102pt>
 File: ../figures/repeated_missing_data.pdf Graphic file (type pdf)
 <use ../figures/repeated_missing_data.pdf>
 Package pdftex.def Info: ../figures/repeated_missing_data.pdf  used on input li
-ne 158.
+ne 157.
 (pdftex.def)             Requested size: 252.0pt x 165.2132pt.
-<../figures/repeated_label_scarcity.pdf, id=166, 433.34961pt x 284.1102pt>
+<../figures/repeated_label_scarcity.pdf, id=167, 433.34961pt x 284.1102pt>
 File: ../figures/repeated_label_scarcity.pdf Graphic file (type pdf)
 <use ../figures/repeated_label_scarcity.pdf>
 Package pdftex.def Info: ../figures/repeated_label_scarcity.pdf  used on input 
-line 167.
+line 166.
 (pdftex.def)             Requested size: 252.0pt x 165.2132pt.
-<../figures/reliability_diagram.pdf, id=168, 368.51465pt x 300.8046pt>
+<../figures/reliability_diagram.pdf, id=169, 368.51465pt x 300.8046pt>
 File: ../figures/reliability_diagram.pdf Graphic file (type pdf)
 <use ../figures/reliability_diagram.pdf>
 Package pdftex.def Info: ../figures/reliability_diagram.pdf  used on input line
- 177.
+ 176.
 (pdftex.def)             Requested size: 231.83954pt x 189.24626pt.
  [3 <../figures/validation_threshold_tradeoff.pdf> <../figures/test_precision_r
 ecall_curve.pdf>]
 (../tables/failure_modes.tex)
-Underfull \hbox (badness 3009) in paragraph at lines 199--200
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 3009) in paragraph at lines 198--199
 []\OT1/ptm/b/n/10 RQ2: Mea-sure-ment noise. \OT1/ptm/m/n/10 In-creas-ing traini
 ng-scaled
  []
@@ -523,11 +525,25 @@ ng-scaled
 [4 <../figures/repeated_sensor_noise.pdf> <../figures/repeated_missing_data.pdf
 > <../figures/repeated_label_scarcity.pdf> <../figures/reliability_diagram.pdf>
 ]
-Underfull \hbox (badness 2237) in paragraph at lines 217--218
+Underfull \hbox (badness 2237) in paragraph at lines 216--217
 \OT1/ptm/m/n/10 be-fore manuscript work, and all gen-er-ated out-puts are
  []
 
 (main.bbl [5])
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
+[]\OT1/ptm/b/n/10 Author: \OT1/ptm/m/n/10 MAA AA-CAAS MUHAMATH, De-part-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
+\OT1/ptm/m/n/10 of Elec-tri-cal En-gi-neer-ing, Uni-ver-sity of Moratuwa
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 229--231
+\OT1/ptm/m/n/10 puter Sci-ence and En-gi-neer-ing, Uni-ver-sity of Moratuwa
+ []
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -539,9 +555,11 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[6
 
-] (main.aux)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+(main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -550,13 +568,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 99502BFB5818AA4E07672AF236EFBB3E;2642.
  ) 
 Here is how much of TeX's memory you used:
- 11245 strings out of 467871
- 175629 string characters out of 5428443
- 613136 words of memory out of 5000000
- 39914 multiletter control sequences out of 15000+600000
- 666369 words of font info for 114 fonts, out of 8000000 for 9000
+ 11246 strings out of 467871
+ 175684 string characters out of 5428443
+ 613171 words of memory out of 5000000
+ 39915 multiletter control sequences out of 15000+600000
+ 665291 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,1370b,590s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,8n,79p,1370b,588s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Progra
 m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type
@@ -568,9 +586,9 @@ es/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/typ
 e1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.
 pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files
 /MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (6 pages, 273952 bytes).
+Output written on main.pdf (6 pages, 275105 bytes).
 PDF statistics:
- 330 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
+ 331 PDF objects out of 1000 (max. 8388607)
+ 63 named destinations out of 1000 (max. 500000)
  167 words of extra memory for PDF output out of 10000 (max. 10000000)
 
